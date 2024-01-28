@@ -1,0 +1,145 @@
+<div class="bg-top h-screen flex flex-col" >
+
+
+    <p class=" px-6 textWithBorderBlack border-black 
+    mt-20 text-black justify-self-start  text-xs md:text-base " (click)="onPressedBackButton()">
+        Volver
+    </p>
+
+    <p class=" px-6 textWithBorderBlack border-black mt-2
+     text-black justify-self-start font-bold text-base md:text-xl lg:text-2xl">
+     Registrar Nuevo Producto, Negocio o Servicio
+    </p>
+
+    <div class="grid grid-cols-1 pb-5" >
+        <form class="" [formGroup]="postulanteForm">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 mt-5 px-6">
+
+                <div class=" grid grid-cols-2 sm:grid-cols-5 md:mr-2 ">
+                    <label class= "text-sm md:text-base lg:text-lg col-span-1 " for="RUCCedula">RUC/ Cédula*: </label>
+                    <input placeholder="RUC/Cédula" class=" sm:col-span-4  rounded border-0 border-[1px] border-current text-gray-900 ml-3 " id="RUCCedula" type="text" formControlName="RUCCedula">
+                </div>
+                
+                <div class=" grid grid-cols-2 sm:grid-cols-5 mt-3 md:mt-0">
+                    <label class= "text-sm md:text-base lg:text-lg col-span-1 mr-2 " for="razonSocial">Razón Social*: </label>
+                    <input placeholder="Razón Social" class=" sm:col-span-4  rounded border-0 border-[1px] border-current text-gray-900 ml-3 " id="razonSocial" type="text" formControlName="razonSocial">
+                </div>
+    
+                <div class=" grid grid-cols-2 sm:grid-cols-5 mt-3 md:mr-2 ">
+                    <label class= "text-sm md:text-base lg:text-lg col-span-1 " for="telefono">Teléfono*: </label>
+                    <input placeholder="Teléfono" class=" sm:col-span-4  rounded border-0 border-[1px] border-current text-gray-900 ml-3 " id="telefono" type="text" formControlName="telefono">
+                </div>
+    
+                <div class=" grid grid-cols-2 sm:grid-cols-5 mt-3 ">
+                    <label class= "text-sm md:text-base lg:text-lg col-span-1 " for="correo">Correo*: </label>
+                    <input placeholder="Correo electrónico" class=" sm:col-span-4 rounded border-0 border-[1px] border-current text-gray-900 ml-3 " id="correo" type="text" formControlName="correo">
+                </div>
+    
+    
+                <div class=" grid grid-cols-2 sm:grid-cols-5 mt-3 md:mr-2">
+                    <label class= "text-sm md:text-base lg:text-lg col-span-1 " for="provincia">Provincia*: </label>
+                    <input placeholder="Provincia" class=" sm:col-span-4  rounded border-0 border-[1px] border-current text-gray-900 ml-3 " id="provincia" type="text" formControlName="provincia">
+                </div>
+    
+    
+                <div class=" grid grid-cols-2 sm:grid-cols-5 mt-3 ">
+                    <label class= "text-sm md:text-base lg:text-lg col-span-1 " for="ciudad">Ciudad*: </label>
+                    <input placeholder="Ciudad" class=" sm:col-span-4  rounded border-0 border-[1px] border-current text-gray-900 ml-3 " id="ciudad" type="text" formControlName="ciudad">
+                </div>
+    
+    
+                <div class=" grid grid-cols-2 sm:grid-cols-5 mt-3 md:mr-2 ">
+                    <label class= "text-sm md:text-base lg:text-lg col-span-1 " for="descripcion">Descripción*: </label>
+                    <textarea placeholder="Descripción" class=" sm:col-span-4  rounded border-0 border-[1px] border-current text-gray-900 ml-3 " id="descripcion" type="text" formControlName="descripcion">
+                    </textarea>
+                </div>
+
+                
+
+                <div class=" grid grid-cols-2 md:grid-cols-10 mt-5 md:mr-2 md:col-span-2 "   formArrayName="categoriasFormControl">
+
+                    <button id="dropdownCheckboxButton3"  data-dropdown-toggle="dropdownDefaultCheckbox3"  class="col-span-1 md:col-span-2 xl:col-span-1 col-start-2 md:col-start-2 xl:col-start-2 md:ml-2 text-black bg-yellow-300 hover:bg-yellow-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"  type="button">Categorias 
+                        <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                        </svg>
+                        </button>
+
+                        
+                        <div id="dropdownDefaultCheckbox3" class="col-span-1 hidden w-48 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
+                            <ul class="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultCheckbox3">
+                              <li *ngFor="let categoria of lista_categories; let i=index">
+                                <div   class="flex items-center " >
+                                  <input id="categoria-{{ i }}" type="checkbox" value="" [formControlName]="i"
+                                   class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                  <label for="categoria-{{ i }}" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{categoria.nombre}} </label>
+                                </div>
+                              </li>
+                              
+                            </ul>
+                        </div>
+                </div>
+
+
+                <div class=" grid grid-cols-2 md:grid-cols-10 mt-5 md:mr-2 md:col-span-2 "   formArrayName="subcategoriasFormControl">
+
+                    <button id="dropdownCheckboxButton2"  data-dropdown-toggle="dropdownDefaultCheckbox2"  class="col-span-1 md:col-span-2 xl:col-span-1 col-start-2 md:col-start-2 xl:col-start-2 md:ml-2 text-black bg-yellow-300 hover:bg-yellow-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"  type="button">SubCategorias 
+                        <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                        </svg>
+                        </button>
+
+                        
+                        <div id="dropdownDefaultCheckbox2" class="col-span-1 hidden w-48 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600">
+                            <ul class="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultCheckbox2">
+                              <li *ngFor="let subcategoria of lista_subcategories; let i=index">
+                                <div   class="flex items-center " >
+                                  <input id="subcategoria-{{ i }}" type="checkbox" value="" [formControlName]="i"
+                                   class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                  <label for="subcategoria-{{ i }}" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"> {{subcategoria.nombre}} </label>
+                                </div>
+                              </li>
+                              
+                            </ul>
+                        </div>
+                </div>
+              
+                
+
+                
+            </div>
+
+            
+            
+            <label class="block mb-2 text-sm md:text-base lg:text-lg mt-10 px-6 text-gray-900 dark:text-white" for="multiple_files">Subir imagénes:</label>
+            <input class="block w-96 text-sm text-gray-900 border border-gray-300 
+            px-6 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+             id="multiple_files" formControlName="multiple_files" type="file" multiple (change)="onFileChange($event)">
+
+             <div class="grid grid-cols-3 md:grid-cols-10 mt-4">
+                <img *ngFor='let url of images'  [src]="url"  class="h-24 w-24">
+             </div>
+
+            <div class="grid grid-cols-1 mt-7 ml-6">
+
+                <p *ngIf="!postulanteForm.valid" class="text-red-500">Complete todos los campos para habilitar el botón de envío</p>
+
+                <button  class="mt-5 col-span-2 md:text-sm lg:text-base justify-self-center md:justify-self-start
+                h-10 lg:h-16  w-24   focus:outline-none text-black bg-yellow-300 
+               hover:bg-yellow-400 focus:ring-4 focus:ring-yellow-300 rounded-lg "
+                type="submit" [disabled]="!postulanteForm.valid" (click)="onPressedSubmit()">Enviar
+               </button>
+            </div>
+            
+
+
+
+
+            
+            
+          </form>
+          
+          
+    </div>
+   
+</div>

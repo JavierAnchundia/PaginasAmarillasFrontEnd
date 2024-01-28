@@ -1,0 +1,29 @@
+<div class="grid grid-cols-3 md:grid-cols-4">
+    <img *ngIf="!imOnAdministrarPostulante && productoServicioNegocio.image_path" src="{{url_backend}}{{productoServicioNegocio.image_path}}" class=" md:col-span-1 md:justify-self-center pl-6 h-60 ">
+    <div class="col-span-2 md:col-span-3 :justify-self-start	">
+        <p class=" pl-4  text-xs md:text-lg lg:text-xl font-bold"> {{productoServicioNegocio.razon_social}}</p>
+        <p class=" pl-4 text-xs md:text-lg lg:text-xl "> {{productoServicioNegocio.descripcion}} </p>
+        <p *ngIf= "listaCategorias.length != 0" class=" pl-4 text-xs md:text-lg lg:text-xl "> Categorias: {{listaCategorias}}</p>
+        <p *ngIf= "listaSubcategorias.length != 0" class=" pl-4 text-xs md:text-lg lg:text-xl "> Subcategorias: {{listaSubcategorias  }}</p>
+        <p class=" pl-4 text-xs md:text-lg lg:text-xl"> Correo: {{productoServicioNegocio.correo}}</p>
+        <p class=" pl-4 text-xs md:text-lg lg:text-xl "> Provincia: {{productoServicioNegocio.provincia}}</p>
+        <p class=" pl-4 text-xs md:text-lg lg:text-xl"> Ciudad: {{productoServicioNegocio.ciudad}}</p>
+        <p class=" pl-4 text-xs md:text-lg lg:text-xl"> Teléfono: {{productoServicioNegocio.telefono}}</p>
+        
+        <button *ngIf="!imOnAdministrarPostulante" class="bg-[#FFC560] text-xs md:text-sm lg:text-base text-black font-bold sm:w-32 
+        ml-5 w-16 h-10 mt-2 rounded" (click)="onPressedEditarRegistro()">
+            Editar
+        </button>
+
+        <button class="bg-red-500  text-xs md:text-sm lg:text-base  text-black font-bold sm:w-32 
+         ml-2 w-16 h-10  mt-2 rounded" (click)="onDeleteClicked()">
+            Eliminar
+        </button>
+    </div>
+        
+
+
+
+    
+
+</div>

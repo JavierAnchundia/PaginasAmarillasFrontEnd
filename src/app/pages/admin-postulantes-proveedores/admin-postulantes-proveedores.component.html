@@ -1,0 +1,21 @@
+<div class="bg-top h-screen flex flex-col" >
+
+
+    <p class=" px-6 textWithBorderBlack border-black 
+    mt-20 text-black justify-self-start  text-xs md:text-base " (click)="onPressedBackButton()">
+        Volver
+    </p>
+
+    <p class=" px-6 textWithBorderBlack border-black mt-2
+     text-black justify-self-start font-bold text-base md:text-xl lg:text-2xl">
+       Solicitudes de Productos, Negocios & Servicios
+    </p>
+
+    <div class="grid grid-cols-1 pb-5" >
+        <app-administrar-proveedor-tarjeta class = "mt-8 border-t-[1px] border-gray-400 pt-8	 " *ngFor="let productoServicioNegocio of lista_productoServicioNegocio"
+        [productoServicioNegocio]="productoServicioNegocio">
+            
+        </app-administrar-proveedor-tarjeta>
+    </div>
+   
+</div>

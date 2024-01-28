@@ -1,0 +1,8 @@
+<button type="submit" class=" px-4  mt-4 h-24  w-24 sm:h-32 sm:w-32 lg:h-40 lg:w-40 bg-[#FFC560] rounded-lg grid grid-cols-1"
+(click)="onPressedCard()">
+    <img class="object-scale-down h-12 w-12 sm:h-20 sm:w-20 lg:h-24 pt-2 lg:w-24 self-center justify-self-center " src="{{ url_backend }}{{categoria.image_path}}" alt=""
+    >
+    <p class="  self-start  text-black  text-xs md:text-base lg:text-lg self-center justify-self-center">
+        {{categoria.nombre}}
+    </p>
+</button>

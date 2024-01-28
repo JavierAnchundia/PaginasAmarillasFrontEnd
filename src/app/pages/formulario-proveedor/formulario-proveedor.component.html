@@ -1,0 +1,83 @@
+<div class="bg-top h-screen flex flex-col" >
+
+
+    <p class=" px-6 textWithBorderBlack border-black 
+    mt-20 text-black justify-self-start  text-xs md:text-base " (click)="onPressedBackButton()">
+        Volver
+    </p>
+
+    <p class=" px-6 textWithBorderBlack border-black mt-2
+     text-black justify-self-start font-bold text-base md:text-xl lg:text-2xl">
+     Envianos tu información para registrarte
+    </p>
+
+    <div class="grid grid-cols-1 pb-5" >
+        <form class="" [formGroup]="postulanteForm">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 mt-5 px-6">
+
+                <div class=" grid grid-cols-2 sm:grid-cols-5 md:mr-2 ">
+                    <label class= "text-sm md:text-base lg:text-lg col-span-1 " for="first-name ">RUC/ Cédula*: </label>
+                    <input placeholder="RUC/Cédula" class=" sm:col-span-4  rounded border-0 border-[1px] border-current text-gray-900 ml-3 " id="first-name" type="text" formControlName="RUCCedula">
+                </div>
+                
+                <div class=" grid grid-cols-2 sm:grid-cols-5 mt-3 md:mt-0">
+                    <label class= "text-sm md:text-base lg:text-lg col-span-1 mr-2 " for="first-name ">Razón Social*: </label>
+                    <input placeholder="Razón Social" class=" sm:col-span-4  rounded border-0 border-[1px] border-current text-gray-900 ml-3 " id="first-name" type="text" formControlName="razonSocial">
+                </div>
+    
+                <div class=" grid grid-cols-2 sm:grid-cols-5 mt-3 md:mr-2 ">
+                    <label class= "text-sm md:text-base lg:text-lg col-span-1 " for="first-name ">Teléfono*: </label>
+                    <input placeholder="Teléfono" class=" sm:col-span-4  rounded border-0 border-[1px] border-current text-gray-900 ml-3 " id="first-name" type="text" formControlName="telefono">
+                </div>
+    
+                <div class=" grid grid-cols-2 sm:grid-cols-5 mt-3 ">
+                    <label class= "text-sm md:text-base lg:text-lg col-span-1 " for="first-name ">Correo*: </label>
+                    <input placeholder="Correo electrónico" class=" sm:col-span-4 rounded border-0 border-[1px] border-current text-gray-900 ml-3 " id="first-name" type="text" formControlName="correo">
+                </div>
+    
+    
+                <div class=" grid grid-cols-2 sm:grid-cols-5 mt-3 md:mr-2">
+                    <label class= "text-sm md:text-base lg:text-lg col-span-1 " for="first-name ">Provincia*: </label>
+                    <input placeholder="Provincia" class=" sm:col-span-4  rounded border-0 border-[1px] border-current text-gray-900 ml-3 " id="first-name" type="text" formControlName="provincia">
+                </div>
+    
+    
+                <div class=" grid grid-cols-2 sm:grid-cols-5 mt-3 ">
+                    <label class= "text-sm md:text-base lg:text-lg col-span-1 " for="first-name ">Ciudad*: </label>
+                    <input placeholder="Ciudad" class=" sm:col-span-4  rounded border-0 border-[1px] border-current text-gray-900 ml-3 " id="first-name" type="text" formControlName="ciudad">
+                </div>
+    
+    
+                <div class=" grid grid-cols-2 sm:grid-cols-5 mt-3 md:mr-2 ">
+                    <label class= "text-sm md:text-base lg:text-lg col-span-1 " for="first-name ">Descripción*: </label>
+                    <textarea placeholder="Descripción" class=" sm:col-span-4  rounded border-0 border-[1px] border-current text-gray-900 ml-3 " id="first-name" type="text" formControlName="descripcion">
+                    </textarea>
+                </div>
+
+                
+            </div>
+            
+            <div class="grid grid-cols-1 mt-7 ml-6">
+
+                <p *ngIf="!postulanteForm.valid" class="text-red-500">Complete todos los campos para habilitar el botón de envío</p>
+
+                <button (click)="onPressedSubmit()" class="mt-5 col-span-2 md:text-sm lg:text-base justify-self-center md:justify-self-start
+                h-10 lg:h-16  w-24   focus:outline-none text-black bg-yellow-400 
+               hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 rounded-lg "
+                type="submit" [disabled]="!postulanteForm.valid">Enviar
+               </button>
+            </div>
+            
+
+
+
+
+            
+            
+          </form>
+          
+          
+    </div>
+   
+</div>

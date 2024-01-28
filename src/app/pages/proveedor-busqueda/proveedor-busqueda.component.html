@@ -1,0 +1,29 @@
+<div class="bg-top h-screen flex flex-col" >
+
+
+    <p class=" px-6 textWithBorderBlack border-black 
+    mt-20 text-black justify-self-start  text-xs md:text-base " (click)="onPressedBackButton()">
+        Volver
+    </p>
+
+    <p class=" px-6 textWithBorderBlack border-black mt-2
+     text-black justify-self-start font-bold text-base md:text-xl lg:text-2xl">
+        Negocios, Productos & Servicios
+    </p>
+
+    <p *ngIf="inSubCategoria" class="px-6 pt-2 border-black text-black  text-sm md:text-lg lg:text-xl">
+        Categoria: {{nombreCategoriaActual}}
+    </p>
+    
+    <p *ngIf="clickedSubCategoria" class=" px-6 pt-2 border-black text-black  text-sm md:text-lg lg:text-xl">
+        Subcategoria: {{nombreSubCategoriaActual}}
+    </p>
+
+    <div class="grid grid-cols-1 pb-5" >
+        <app-proveedor-tarjeta class = "mt-8 border-t-[1px] border-gray-400 pt-8	 " *ngFor="let productoServicioNegocio of lista_productoServicioNegocio"
+        [productoServicioNegocio]="productoServicioNegocio">
+            
+        </app-proveedor-tarjeta>
+    </div>
+   
+</div>

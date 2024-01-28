@@ -1,0 +1,7 @@
+.textWithBorderBlack {
+    -webkit-text-stroke: 0.5px white;
+  }
+
+  textarea {
+    resize: none;
+  }
