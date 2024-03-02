@@ -1,5 +1,5 @@
-const URL_ROOT = 'http://localhost:8000/api/core/'
-const URL_STATIC = 'http://localhost:8000/static';
+const URL_ROOT = 'https://ariseandshine.pythonanywhere.com/api/core/'
+const URL_STATIC = 'https://ariseandshine.pythonanywhere.com/static';
 
 const URL_SERVICIOS = {
     categorias : URL_ROOT + 'categorias',
