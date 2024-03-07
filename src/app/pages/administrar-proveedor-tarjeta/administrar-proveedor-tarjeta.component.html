@@ -3,6 +3,7 @@
     <div class="col-span-2 md:col-span-3 :justify-self-start	">
         <p class=" pl-4  text-xs md:text-lg lg:text-xl font-bold"> {{productoServicioNegocio.razon_social}}</p>
         <p class=" pl-4 text-xs md:text-lg lg:text-xl "> {{productoServicioNegocio.descripcion}} </p>
+        <p class=" pl-4 text-xs md:text-lg lg:text-xl"> Cédula: {{productoServicioNegocio.ruc_cedula}}</p>
         <p *ngIf= "listaCategorias.length != 0" class=" pl-4 text-xs md:text-lg lg:text-xl "> Categorias: {{listaCategorias}}</p>
         <p *ngIf= "listaSubcategorias.length != 0" class=" pl-4 text-xs md:text-lg lg:text-xl "> Subcategorias: {{listaSubcategorias  }}</p>
         <p class=" pl-4 text-xs md:text-lg lg:text-xl"> Correo: {{productoServicioNegocio.correo}}</p>
