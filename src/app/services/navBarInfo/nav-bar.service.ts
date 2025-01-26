@@ -6,12 +6,14 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class NavBarService {
 
-  private imPostulanteSubject: BehaviorSubject<boolean> = new BehaviorSubject(false );
+  private imPostulanteSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);
   public readonly imPostulante: Observable<boolean> = this.imPostulanteSubject.asObservable();
 
   constructor() { }
 
-  setImPostulante(imPostulante: boolean): void {
-    this.imPostulanteSubject.next(imPostulante);
+  setImPostulante(imPostulanteParam: boolean): void {
+    console.log("Services NaVbAR");
+    console.log(imPostulanteParam);
+    this.imPostulanteSubject.next(imPostulanteParam);
   }
 }

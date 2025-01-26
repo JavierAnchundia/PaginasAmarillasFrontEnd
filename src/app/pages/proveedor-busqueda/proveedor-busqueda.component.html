@@ -1,10 +1,12 @@
 <div class="bg-top h-screen flex flex-col" >
 
 
-    <p class=" px-6 textWithBorderBlack border-black 
-    mt-20 text-black justify-self-start  text-xs md:text-base " (click)="onPressedBackButton()">
-        Volver
-    </p>
+    <div class=" grid grid-cols-10 sm:grid-cols-12 ">
+        <button (click)="onPressedBackButton()" class="col-span-1 col-start-1 sm:col-start-1  justify-self-end md:justify-self-center
+                    mt-36 md:mt-20 mr-0 xl:mr-12 text-black   text-xs md:text-base ">
+                    Volver
+        </button>
+    </div>
 
     <p class=" px-6 textWithBorderBlack border-black mt-2
      text-black justify-self-start font-bold text-base md:text-xl lg:text-2xl">

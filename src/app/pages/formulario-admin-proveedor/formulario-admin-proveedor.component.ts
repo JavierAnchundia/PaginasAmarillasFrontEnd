@@ -4,12 +4,17 @@ import { NavBarService } from '../../services/navBarInfo/nav-bar.service';
 import { Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ProveedorService } from '../../services/proveedor/proveedor.service';
+import { ProvinciaService } from '../../services/provincia/provincia.service';
+
 import { ImagenProveedorService } from '../../services/imagen/imagen-proveedor.service';
 
 
 import { throwError } from 'rxjs';
 
 import {Categoria} from '../../models/categoria.model';
+import {Provincia} from '../../models/provincia.model';
+import {EnlacesProveedor} from '../../models/enlacesProveedor.model';
+
 import {ProductoServicioNegocio} from '../../models/productoServicioNegocio.model';
 
 import {Subcategoria } from 'src/app/models/subcategoria.model';
@@ -21,10 +26,12 @@ import { Router,Event } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { FormArray } from '@angular/forms';
+import { initFlowbite } from 'flowbite';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
+import {Collapse, initCollapses, CollapseInterface}from 'flowbite'
 
 @Component({
   selector: 'app-formulario-admin-proveedor',
@@ -38,8 +45,11 @@ export class FormularioAdminProveedorComponent implements OnInit{
 
   images : any = [];
   imagesListForm : Array<File> = [];
+
   lista_categories: Categoria[] = [];
   lista_subcategories: Subcategoria[] = [];
+  lista_provincias: Provincia[] = [];
+  lista_enlacesProveedor: EnlacesProveedor[] = [];
 
   
   postulanteForm = new FormGroup({
@@ -47,21 +57,26 @@ export class FormularioAdminProveedorComponent implements OnInit{
     razonSocial: new FormControl('',Validators.required),
     telefono: new FormControl('',Validators.required),
     correo: new FormControl('',Validators.required),
-    provincia: new FormControl('',Validators.required),
     ciudad: new FormControl('',Validators.required),
     descripcion: new FormControl('',Validators.required),
     multiple_files: new FormControl(''),
     fileSource: new FormControl('', ),
     categoriasFormControl: this.formBuilder.array([]),
     subcategoriasFormControl: this.formBuilder.array([]),
-
-
-
+    provinciasFormControl: this.formBuilder.array([]),
 
   });
 
+
+  enlaceForm = new FormGroup({
+    tipoEnlace: new FormControl('',Validators.required),
+    enlace: new FormControl('',Validators.required),
+
+
+  });
   constructor(private router: Router, private navBarService:NavBarService, private proveedorService:ProveedorService,
-    private imagenProveedorService:ImagenProveedorService, private formBuilder: FormBuilder, public categoriaService: CategoriaService)
+    private imagenProveedorService:ImagenProveedorService, private formBuilder: FormBuilder,
+     public categoriaService: CategoriaService, public provinciaService:ProvinciaService )
   {
 
     
@@ -69,7 +84,35 @@ export class FormularioAdminProveedorComponent implements OnInit{
   
 
   ngOnInit(): void {
-      
+
+    initFlowbite();
+    initCollapses();
+
+    this.provinciaService.getAllProvincias().subscribe(
+      {
+        
+
+        next: value => 
+        {
+          console.log(value)
+          this.lista_provincias = value as Provincia[];
+          for (var provincia of this.lista_provincias) {
+            this.provinciasFormControl.push(this.formBuilder.control(''));
+          }
+
+          console.log(this.lista_provincias)
+
+        
+        },
+        error: err => {
+          console.error('Error:' + err);
+          alert("Hubo un error al cargar los datos, intentelo de nuevo");
+          throw new Error(err);
+  
+        }
+      })
+
+
     this.categoriaService.getCategorias().subscribe(
       {
         
@@ -98,32 +141,7 @@ export class FormularioAdminProveedorComponent implements OnInit{
       })
 
     
-      this.categoriaService.getCategorias().subscribe(
-        {
-          
-  
-          next: value => 
-          {
-            this.lista_categories = value as Categoria[];
-            
-            console.log(value);
-            console.log( this.lista_categories[1]);
-  
-            for (var categoria of this.lista_categories) {
-              this.categoriasFormControl.push(this.formBuilder.control(''));
-              console.log(categoria)
-            }
-  
-            console.log(this.categoriasFormControl.controls)
-          
-          },
-          error: err => {
-            console.error('Error:' + err);
-            alert("Hubo un error al cargar los datos, intentelo de nuevo");
-            throw new Error(err);
-    
-          }
-        })
+      
 
 
       
@@ -132,6 +150,8 @@ export class FormularioAdminProveedorComponent implements OnInit{
       (
         categoriasList => 
         {
+          console.log(categoriasList)
+          console.log(this.categoriasFormControl.value)
 
           this.lista_subcategories = [];
           this.subcategoriasFormControl.clear();
@@ -187,6 +207,14 @@ export class FormularioAdminProveedorComponent implements OnInit{
 
 
   }
+
+  get provinciasFormControl() {
+    return this.postulanteForm.get('provinciasFormControl') as FormArray;
+  }
+
+
+
+  
 
   get categoriasFormControl() {
     return this.postulanteForm.get('categoriasFormControl') as FormArray;
@@ -279,11 +307,10 @@ export class FormularioAdminProveedorComponent implements OnInit{
     proveedorParams.append('telefono',this.postulanteForm.value.telefono as string);
 
     proveedorParams.append('correo',this.postulanteForm.value.correo as string);
-    proveedorParams.append('provincia', this.postulanteForm.value.provincia as string);
     proveedorParams.append('ciudad', this.postulanteForm.value.ciudad as string);
     proveedorParams.append('descripcion', this.postulanteForm.value.descripcion as string);
     proveedorParams.append('state', "Activo");
-
+ 
     
 
     console.log(this.categoriasFormControl.controls)
@@ -300,10 +327,9 @@ export class FormularioAdminProveedorComponent implements OnInit{
         next: value => 
         {
 
-          console.log("Registrado Proveedor")
-          console.log("Mi VALUE" + value)
-          console.log(value)
-
+          
+          this.createProveedorPronvincia(value);
+          this.createProveedorLinks(value)
           const imagesList:any[] = [];
           const idProveedor: any = Object(value as Object)["data"]["id_proveedor"] ;
           let   subcategoriasPostList: any[] = [];
@@ -395,6 +421,57 @@ export class FormularioAdminProveedorComponent implements OnInit{
 
   }
 
+  public createProveedorPronvincia(proveedor:any)
+  {
+
+          
+          console.log("Registrado Proveedor")
+          console.log("Mi VALUE" + proveedor)
+          console.log(proveedor)
+
+          const idProveedor: any = Object(proveedor as Object)["data"]["id_proveedor"] ;
+          let   provinciasPostList: any[] = [];
+
+          console.log(idProveedor);
+
+
+          for (let i = 0; i < this.provinciasFormControl.controls.length; i++) 
+          {
+
+            console.log(this.provinciasFormControl.controls[i])
+            console.log(this.lista_provincias[i].id)
+
+          
+            if(this.provinciasFormControl.controls[i].value == true)
+            {
+              provinciasPostList.push(this.lista_provincias[i].id)
+                        
+            }
+          }
+
+
+          if(provinciasPostList.length != 0)
+          {
+            const formData: FormData = new FormData();
+
+            formData.append('provinciasList', provinciasPostList.toString());
+            formData.append('proveedor', idProveedor);
+            
+            this.provinciaService.crearProveedorProvincia(formData).subscribe(
+              {
+                
+        
+                next: value =>  console.log("Registrado exitosamente"),
+                error: err => {
+                  console.error('Error:' + err);
+                  alert("Hubo un error al guardar las provincias, intentelo de nuevo");
+                  throw new Error(err);
+          
+                }
+              })
+
+          }
+  }
 
   uploadImage(file: File, idProveedor:any) {
     const formData: FormData = new FormData();
@@ -417,5 +494,63 @@ export class FormularioAdminProveedorComponent implements OnInit{
   
         }
       })
+  }
+
+  onPressedAddEnlace()
+  {
+    let enlaceGet = this.enlaceForm.value.enlace as string;
+    let enlaceTypeGet =     this.enlaceForm.value.tipoEnlace as string;
+
+
+    let EnlaceProveedorAdded = {"enlace":enlaceGet, "linkType":enlaceTypeGet};
+
+
+    this.lista_enlacesProveedor.push(EnlaceProveedorAdded);
+
+    this.enlaceForm.reset();
+    
+    console.log(this.lista_enlacesProveedor)
+  }
+
+
+  deleteAddedEnlace(enlaceProveedorListIdx:any)
+  {
+
+    this.lista_enlacesProveedor.splice(enlaceProveedorListIdx,1);
+
+  }
+
+  public createProveedorLinks(proveedor:any)
+  {
+
+          
+          console.log("Registrado Proveedor Links")
+          console.log("Mi VALUE" + proveedor)
+          console.log(proveedor)
+
+          const idProveedor: any = Object(proveedor as Object)["data"]["id_proveedor"] ;
+
+          
+            const formData: FormData = new FormData();
+
+            formData.append('enlacesProveedor',  JSON.stringify(this.lista_enlacesProveedor));
+            
+            console.log(JSON.stringify(this.lista_enlacesProveedor))
+            console.log(this.lista_enlacesProveedor.toString())
+
+            this.proveedorService.crearEnlacesProveedor(formData, idProveedor).subscribe(
+              {
+                
+        
+                next: value =>  console.log("Registrado exitosamente"),
+                error: err => {
+                  console.error('Error:' + err);
+                  alert("Hubo un error al guardar las provincias, intentelo de nuevo");
+                  throw new Error(err);
+          
+                }
+              })
+
+          
   }
 }

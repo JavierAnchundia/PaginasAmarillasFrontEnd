@@ -1,4 +1,4 @@
-import { Component, OnInit  } from '@angular/core';
+import { Component, OnInit, OnDestroy  } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup, FormControl } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -14,8 +14,10 @@ import {Subcategoria } from 'src/app/models/subcategoria.model';
 import { NgFor, NgIf } from '@angular/common';
 import { CategoriaService } from '../../services/categoria/categoria.service';
 import { ProveedorService } from '../../services/proveedor/proveedor.service';
+import { Subscription } from 'rxjs';
 
 import { Router } from '@angular/router';
+import { ProvinciaService } from 'src/app/services/provincia/provincia.service';
 
 @Component({
   selector: 'app-buscar-producto',
@@ -32,19 +34,23 @@ export class BuscarProductoComponent implements OnInit {
 
   lista_categories: Categoria[] = [];
   lista_subcategories: Subcategoria[] = [];
-
+  lista_filterprovinciasIds: any[]= [];
 
 
   inSubCategoria:boolean = false;
   clickedSubCategoria:boolean = false;
+  isProvinciasFilterActive:boolean = false;
 
   nombreCategoriaActual = new String("");
   nombreSubCategoriaActual = new String("");
 
+  private provinciasServiceSubscription: Subscription | undefined;
+
   public searchForm = new FormGroup({
     searchBar: new FormControl(''),
   });
-  constructor(public categoriaService: CategoriaService, private router: Router, public proveedorService: ProveedorService,)
+  constructor(public categoriaService: CategoriaService, private router: Router, public proveedorService: ProveedorService, 
+    public provinciasService:ProvinciaService)
   {
 
     
@@ -55,11 +61,13 @@ export class BuscarProductoComponent implements OnInit {
     this.proveedorService.set_categoriaFilterOn("False");
     this.proveedorService.set_subcategoriaFilterOn("False");
     this.proveedorService.set_nombreProveedorFilterOn("False");
+    this.proveedorService.set_provinciasFilterOn("False");
 
 
     this.proveedorService.set_categoriaNombre("");
     this.proveedorService.set_subcategoriaNombre("");
     this.proveedorService.set_nombreProveedor("");
+    this.proveedorService.set_lista_filterprovinciasIds([]);
 
     //Inicializado esto en string vacio cada vez que se carga el componente
     this.categoriaService.setCategoriaActual(new Categoria("",""))  ;
@@ -90,10 +98,36 @@ export class BuscarProductoComponent implements OnInit {
         }
       })
 
+
+      this.provinciasServiceSubscription = this.provinciasService.listOfProvincias.subscribe(
+        listOfIdsProvinces => {
+
+          console.log("Funcionooo");
+          console.log(listOfIdsProvinces);
+          if(listOfIdsProvinces.length > 0)
+            {
+
+              this.lista_filterprovinciasIds = listOfIdsProvinces;
+              this.isProvinciasFilterActive = true;
+            }
+
+          else
+          {
+            this.lista_filterprovinciasIds = [] as any[];
+            this.isProvinciasFilterActive = false;
+
+          }
+          
+        }
+      );
     
     
   }
 
+
+  ngOnDestroy(): void {
+    this.provinciasServiceSubscription?.unsubscribe();
+  }
 
  
  
@@ -108,16 +142,19 @@ export class BuscarProductoComponent implements OnInit {
     if(this.inSubCategoria){ this.nombreCategoriaActual = (this.categoriaService.getCategoriaActual() as Categoria).nombre }
 
 
-    //EN CASO DE QUE LA CATEGORIA SEA VARIOS  YAQUE NOTIENE SUBCATEGORIA QUE REDIRIJA DIRECTAMENTE
+    //EN CASO DE QUE LA CATEGORIA SEA VARIOS  YA QUE NOTIENE SUBCATEGORIA QUE REDIRIJA DIRECTAMENTE
     if(this.nombreCategoriaActual == "VARIOS")
     {
       this.proveedorService.set_categoriaFilterOn("True");
       this.proveedorService.set_subcategoriaFilterOn("False");
       this.proveedorService.set_nombreProveedorFilterOn("False");
+      
+      this.proveedorService.set_provinciasFilterOn(this.isProvinciasFilterActive);
 
       this.proveedorService.set_categoriaNombre("VARIOS");
       this.proveedorService.set_nombreProveedor("");
       this.proveedorService.set_subcategoriaNombre("");
+      this.proveedorService.set_lista_filterprovinciasIds(this.lista_filterprovinciasIds);
 
       this.router.navigate(['inicio/busqueda']);
 
@@ -166,11 +203,13 @@ export class BuscarProductoComponent implements OnInit {
     this.proveedorService.set_categoriaFilterOn("True");
     this.proveedorService.set_subcategoriaFilterOn("True");
     this.proveedorService.set_nombreProveedorFilterOn("False");
+    this.proveedorService.set_provinciasFilterOn(this.isProvinciasFilterActive);
 
     this.proveedorService.set_categoriaNombre(this.nombreCategoriaActual);
     this.proveedorService.set_subcategoriaNombre( this.nombreSubCategoriaActual);
     this.proveedorService.set_nombreProveedor("");
-    
+    this.proveedorService.set_lista_filterprovinciasIds(this.lista_filterprovinciasIds);
+
     this.router.navigate(['inicio/busqueda']);
 
     
@@ -204,10 +243,12 @@ export class BuscarProductoComponent implements OnInit {
     this.proveedorService.set_categoriaFilterOn("False");
     this.proveedorService.set_subcategoriaFilterOn("False");
     this.proveedorService.set_nombreProveedorFilterOn("True");
+    this.proveedorService.set_provinciasFilterOn(this.isProvinciasFilterActive);
 
     this.proveedorService.set_categoriaNombre("");
     this.proveedorService.set_subcategoriaNombre( "");
     this.proveedorService.set_nombreProveedor(this.searchForm.value.searchBar );
+    this.proveedorService.set_lista_filterprovinciasIds(this.lista_filterprovinciasIds);
 
     console.log(this.searchForm.value.searchBar );
     this.router.navigate(['inicio/busqueda']);

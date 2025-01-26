@@ -1,16 +1,28 @@
 <div class="grid grid-cols-3 md:grid-cols-4">
-    <img  *ngIf=" productoServicioNegocio.image_path" src="{{url_backend}}{{productoServicioNegocio.image_path}}" class=" md:col-span-1 md:justify-self-center pl-6 h-60 ">
-    <div class="col-span-2 md:col-span-3 :justify-self-start	">
-        <p class=" pl-4  text-xs md:text-lg lg:text-xl font-bold"> {{productoServicioNegocio.razon_social}}</p>
-        <p class=" pl-4 text-xs md:text-lg lg:text-xl "> {{productoServicioNegocio.descripcion}} </p>
-        <p class=" pl-4 text-xs md:text-lg lg:text-xl "> Categorias: {{listaCategorias}}</p>
-        <p class=" pl-4 text-xs md:text-lg lg:text-xl "> Subcategorias: {{listaSubcategorias  }}</p>
-        <p class=" pl-4 text-xs md:text-lg lg:text-xl"> Correo: {{productoServicioNegocio.correo}}</p>
-        <p class=" pl-4 text-xs md:text-lg lg:text-xl "> Provincia: {{productoServicioNegocio.provincia}}</p>
-        <p class=" pl-4 text-xs md:text-lg lg:text-xl"> Ciudad: {{productoServicioNegocio.ciudad}}</p>
-        <p class=" pl-4 text-xs md:text-lg lg:text-xl"> Teléfono: {{ "+593" + productoServicioNegocio.telefono.slice(1,productoServicioNegocio.telefono.length)}}</p>
-        <a class= " "aria-label="Chat on WhatsApp" href="https://wa.me/{{'+593' + productoServicioNegocio.telefono.slice(1,productoServicioNegocio.telefono.length)}}"><img class="rounded-lg mt-2 ml-4 h-10 w-10 md:h-16 md:w-16 " alt="Chat on WhatsApp" src="assets/WhatsappIcon.png" >
+    <img  *ngIf=" productoServicioNegocio.image_path" src="{{url_backend}}{{productoServicioNegocio.image_path}}" class=" col-span-1 md:justify-self-center pl-6 h-60 ">
+    <div class="grid grid-cols-12 col-span-2 md:col-span-3 :justify-self-start	">
+        <p class=" col-span-12 pl-4  text-xs md:text-lg lg:text-xl font-bold"> {{productoServicioNegocio.razon_social}}</p>
+        <p class=" col-span-12 pl-4 text-xs md:text-lg lg:text-xl "> {{productoServicioNegocio.descripcion}} </p>
+        <p class=" col-span-12 pl-4 text-xs md:text-lg lg:text-xl "> Categorias: {{listaCategorias}}</p>
+        <p class=" col-span-12 pl-4 text-xs md:text-lg lg:text-xl "> Subcategorias: {{listaSubcategorias  }}</p>
+        <p class=" col-span-12 pl-4 text-xs md:text-lg lg:text-xl"> Correo: {{productoServicioNegocio.correo}}</p>
+        <p class=" col-span-12 pl-4 text-xs md:text-lg lg:text-xl "> Provincia: {{listaProvincias}}</p>
+        <p class=" col-span-12 pl-4 text-xs md:text-lg lg:text-xl"> Ciudad: {{productoServicioNegocio.ciudad}}</p>
+        <p class=" col-span-12 pl-4 text-xs md:text-lg lg:text-xl"> Teléfono: {{ "+593" + productoServicioNegocio.telefono.slice(1,productoServicioNegocio.telefono.length)}}</p>
+        <a class= "col-span-3 sm:col-span-2 md:col-span-2 lg:col-span-1 mt-5 ml-4 mr-4  h-10 w-10 sm:h-14 sm:w-14 md:h-16 md:w-16 lg:h-[4.5rem] lg:w-[4.5rem]"aria-label="Chat on WhatsApp" href="https://wa.me/{{'+593' + productoServicioNegocio.telefono.slice(1,productoServicioNegocio.telefono.length)}}">
+            <img class="rounded-lg  h-10 w-10 sm:h-14 sm:w-14 md:h-16 md:w-16 lg:h-[4.5rem] lg:w-[4.5rem]" alt="Chat on WhatsApp" src="assets/WhatsappIcon.png" >
         </a>
+        <div class= " col-span-3 sm:col-span-2 md:col-span-2 lg:col-span-1 h-10 w-10 sm:h-14 sm:w-14 md:h-16 md:w-16 lg:h-[4.5rem] lg:w-[4.5rem] mt-5 ml-4" *ngFor="let enlace of listOfLinks">
+            <a class="" aria-label="Link" href="{{enlace.enlace}}">
+                <img *ngIf="enlace.linkType == 'Facebook'" class="rounded-lg h-10 w-10 sm:h-14 sm:w-14 md:h-16 md:w-16 lg:h-[4.5rem] lg:w-[4.5rem]" alt="Facebook" src="assets/FacebookIcon.png" >
+                <img *ngIf="enlace.linkType == 'Instagram'" class="rounded-lg  h-10 w-10 sm:h-14 sm:w-14 md:h-16 md:w-16 lg:h-[4.5rem] lg:w-[4.5rem]" alt="Instagram" src="assets/InstagramIcon.jpeg" >
+                <img *ngIf="enlace.linkType == 'TikTok'" class="rounded-lg  h-10 w-10 sm:h-14 sm:w-14 md:h-16 md:w-16 lg:h-[4.5rem] lg:w-[4.5rem]" alt="TikTok" src="assets/TikTokIcon.png" >
+                <img *ngIf="enlace.linkType == 'X'" class="rounded-lg  h-10 w-10 sm:h-14 sm:w-14 md:h-16 md:w-16 lg:h-[4.5rem] lg:w-[4.5rem]" alt="X" src="assets/XIcon.jpg" >
+                <img *ngIf="enlace.linkType == 'Otros'" class="rounded-lg  h-10 w-10 sm:h-14 sm:w-14 md:h-16 md:w-16 lg:h-[4.5rem] lg:w-[4.5rem]" alt="Otros" src="assets/LinkIcon.png" > 
+            </a>
+        </div>
+        
+
     </div>
         
 

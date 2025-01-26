@@ -1,6 +1,6 @@
 import {Subcategoria} from './subcategoria.model';
 import {Categoria} from './categoria.model';
-
+import { Provincia } from './provincia.model';
 
 export class ProductoServicioNegocio{
     constructor(
@@ -10,11 +10,12 @@ export class ProductoServicioNegocio{
         public razon_social: String,
         public telefono: String,
         public correo: String,
-        public provincia: String,
         public ciudad:String,
         public descripcion:String,
+        public provincia?: any[],
         public categoria?: any[],
         public subcategorias?: any[],
+        public enlaces?: any[],
         public image_path?:String,
         
 

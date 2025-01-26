@@ -10,6 +10,8 @@ import { NgFor, NgIf } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {ProveedorTarjetaComponent} from '../proveedor-tarjeta/proveedor-tarjeta.component'
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { ProvinciaService } from 'src/app/services/provincia/provincia.service';
 
 @Component({
   selector: 'app-proveedor-busqueda',
@@ -31,9 +33,16 @@ export class ProveedorBusquedaComponent implements OnInit {
   lista_categories: Categoria[] = [];
   lista_subcategories: Subcategoria[] = [];
   lista_productoServicioNegocio: ProductoServicioNegocio[] = [];
+  lista_filterprovinciasIds: any[]= [];
+
+  isProvinciasFilterActive:boolean = false;
 
 
-  constructor(public categoriaService: CategoriaService,private router: Router, public proveedorService: ProveedorService)
+  private provinciasServiceSubscription: Subscription | undefined;
+
+  constructor(public categoriaService: CategoriaService,private router: Router, public proveedorService: ProveedorService,
+    public provinciasService:ProvinciaService
+  )
   {
 
     
@@ -58,12 +67,19 @@ export class ProveedorBusquedaComponent implements OnInit {
     proveedorParams.append('categoriaFilterOn',this.proveedorService.get_categoriaFilterOn());
     proveedorParams.append('subcategoriaFilterOn',this.proveedorService.get_subcategoriaFilterOn());
     proveedorParams.append('nombreProveedorFilterOn', this.proveedorService.get_nombreProveedorFilterOn());
+    proveedorParams.append('provinciasFilterOn', this.proveedorService.get_provinciasFilterOn());
+  
 
     proveedorParams.append('nombreCategoria',this.proveedorService.get_categoriaNombre());
     proveedorParams.append('nombreProveedor', this.proveedorService.get_nombreProveedor());
     proveedorParams.append('nombreSubcategoria', this.proveedorService.get_subcategoriaNombre());
-   
+    proveedorParams.append('listaProvinciasId', this.proveedorService.get_lista_filterprovinciasIds().toString());
+    proveedorParams.append('tipoProveedor', "Activo");
+
       
+      console.log(this.proveedorService.get_lista_filterprovinciasIds().toString())
+      console.log(this.proveedorService.get_provinciasFilterOn())
+
       this.proveedorService.getProveedoresFilter(proveedorParams).subscribe((data:any) => {
 
           
@@ -79,6 +95,63 @@ export class ProveedorBusquedaComponent implements OnInit {
             this.postRedesSociales();
           }*/
       })
+
+
+      this.provinciasServiceSubscription = this.provinciasService.listOfProvincias.subscribe(
+        listOfIdsProvinces => {
+  
+          console.log("Funcionooo");
+          console.log(listOfIdsProvinces);
+          if(listOfIdsProvinces.length > 0)
+            {
+  
+              this.lista_filterprovinciasIds = listOfIdsProvinces;
+              this.isProvinciasFilterActive = true;
+            }
+  
+          else
+          {
+            this.lista_filterprovinciasIds = [] as any[];
+            this.isProvinciasFilterActive = false;
+  
+          }
+          
+  
+
+      this.proveedorService.set_provinciasFilterOn(this.isProvinciasFilterActive);
+      this.proveedorService.set_lista_filterprovinciasIds(this.lista_filterprovinciasIds);
+  
+      
+      const proveedorParams = new FormData();
+  
+        
+      proveedorParams.append('categoriaFilterOn',this.proveedorService.get_categoriaFilterOn());
+      proveedorParams.append('subcategoriaFilterOn',this.proveedorService.get_subcategoriaFilterOn());
+      proveedorParams.append('nombreProveedorFilterOn', this.proveedorService.get_nombreProveedorFilterOn());
+      proveedorParams.append('provinciasFilterOn', this.proveedorService.get_provinciasFilterOn());
+  
+      proveedorParams.append('nombreCategoria',this.proveedorService.get_categoriaNombre());
+      proveedorParams.append('nombreProveedor', this.proveedorService.get_nombreProveedor());
+      proveedorParams.append('nombreSubcategoria', this.proveedorService.get_subcategoriaNombre());
+      proveedorParams.append('listaProvinciasId', this.proveedorService.get_lista_filterprovinciasIds().toString());
+      proveedorParams.append('tipoProveedor', "Activo");
+  
+        
+        this.proveedorService.getProveedoresFilter(proveedorParams).subscribe((data:any) => {
+  
+            
+          this.lista_productoServicioNegocio = data;
+          console.log(this.lista_productoServicioNegocio);
+  
+  
+            /*this.id_camposanto = data['id_camposanto']
+            this.postCoordenadas();
+            let lenCadena = String(this.redList.value[0].redSocial);
+            if(this.redList.length>0 || lenCadena.length>0){
+              this.postRedesSociales();
+            }*/
+        })
+        })
     //Leer del BackEnd la info que se va a traer
    
 

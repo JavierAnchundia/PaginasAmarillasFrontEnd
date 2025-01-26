@@ -18,10 +18,12 @@ export class ProveedorService {
   public nombreProveedorFilterOn = "False";
   public categoriaFilterOn = "False";
   public subcategoriaFilterOn = "False";
+  public provinciasFilterOn = "False";
 
   public nombreProveedor = "";
   public categoriaNombre = "";
   public subcategoriaNombre = "";
+  public lista_filterprovinciasIds: any[]= [];
 
 
   public productoServicioNegocioEdit:ProductoServicioNegocio = {} as ProductoServicioNegocio
@@ -83,6 +85,19 @@ export class ProveedorService {
     this.subcategoriaFilterOn = subcategoriaFilterOn;
   }
 
+
+  //GET Y SET PARA LAS PROVINIAS 
+  get_provinciasFilterOn()
+  {
+    return this.provinciasFilterOn;
+  }
+
+  set_provinciasFilterOn(provinciasFilterOn:any)
+  {
+
+    this.provinciasFilterOn = provinciasFilterOn;
+  }
+
   get_nombreProveedor()
   {
     return this.nombreProveedor;
@@ -117,6 +132,16 @@ export class ProveedorService {
   }
 
 
+  get_lista_filterprovinciasIds()
+  {
+    return this.lista_filterprovinciasIds;
+  }
+
+  set_lista_filterprovinciasIds(lista_filterprovinciasIds:any)
+  {
+
+    this.lista_filterprovinciasIds = lista_filterprovinciasIds;
+  }
   
   getAllActiveProveedores():Observable<FormData>{
     let url = URL_SERVICIOS.proveedoresActivosAll;
@@ -184,6 +209,27 @@ export class ProveedorService {
     return this.http.get<FormData>(url)
   }
 
+  crearEnlacesProveedor(enlaceProveedorForm:FormData, id_proveedor:String):Observable<FormData>{
+
+    let url = URL_SERVICIOS.proveedorEnlaces  + '/' + id_proveedor + '/' ;
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    }
+    return this.http.put<FormData>(url, enlaceProveedorForm)
+  }
+
+  deleteProveedorEnlacesRegister(enlacesListFormData:FormData, id_proveedor:String):Observable<FormData>{
+
+    let url = URL_SERVICIOS.proveedorDeleteEnlaces  + '/' + id_proveedor + '/' ;
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    }
+    return this.http.put<FormData>(url, enlacesListFormData)
+  }  
 
   
 }
