@@ -1,8 +1,8 @@
-//const URL_ROOT = 'http://127.0.0.1:8000/api/core/'
-//const URL_STATIC = 'http://127.0.0.1:8000';
+const URL_ROOT = 'http://127.0.0.1:8000/api/core/'
+const URL_STATIC = 'http://127.0.0.1:8000';
 
-const URL_ROOT = 'https://ariseandshine.pythonanywhere.com/api/core/'
-const URL_STATIC = 'https://ariseandshine.pythonanywhere.com';
+//const URL_ROOT = 'https://ariseandshine.pythonanywhere.com/api/core/'
+//const URL_STATIC = 'https://ariseandshine.pythonanywhere.com';
 
 
 const URL_SERVICIOS = {
